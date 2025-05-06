@@ -10,11 +10,14 @@ import (
 	"init/internal/config"
 )
 
+// TODO:
+// Move cli args to its own file and use pflag
 func main() {
 	args := os.Args
 	if len(args) < 2 {
 		log.Fatalf("Usage: %s <Language index>", args[0])
 	}
+
 
 	home := os.Getenv("HOME")
 	configFile := filepath.Join(home, ".config", "init", "config.json")
@@ -30,6 +33,13 @@ func main() {
 
 	config, err := config.ParseConfig(configFile)
 
+	if args[1] == "list" {
+		fmt.Println("Available languages:")
+		for i, language := range config.Languages {
+			fmt.Printf("%v: %v\n", i, language.Name)
+		}
+		os.Exit(0)
+	}
 	if err != nil {
 		log.Fatalf("Error parsing config file %v", err)
 	}
