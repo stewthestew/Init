@@ -37,7 +37,6 @@ func main() {
 		os.Exit(0)
 	}
 
-
 	// Terrible code
 	// but it works
 	for _, language := range config.Languages {
