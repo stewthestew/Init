@@ -40,7 +40,7 @@ func main() {
 	}
 
 	if i > len(config.Languages) {
-		fmt.Println("The language index %v does not exist.", i, )
+		fmt.Printf("The language index %v does not exist.\n", i, )
 		os.Exit(1)
 	}
 
