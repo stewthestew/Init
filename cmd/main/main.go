@@ -4,11 +4,17 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"init/internal/config"
 )
 
 func main() {
+	args := os.Args
+	if len(args) < 2 {
+		log.Fatalf("Usage: %s <Language index>", args[0])
+	}
+
 	home := os.Getenv("HOME")
 	configFile := filepath.Join(home, ".config", "init", "config.json")
 	configDir := filepath.Join(home, ".config", "init")
@@ -26,13 +32,16 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error parsing config file %v", err)
 	}
-	for _, language := range config.Languages {
-		for _, directory := range language.Directories {
-			os.MkdirAll(directory, os.ModePerm)
-		}
+	i, err := strconv.Atoi(args[1])
+	if err != nil {
+		log.Fatalf("Error converting language index to int %v", err)
+	}
 
-		for _, file := range language.Files {
-			os.Create(file)
-		}
+	for _, directory := range config.Languages[i].Directories {
+		os.MkdirAll(directory, os.ModePerm)
+	}
+
+	for _, file := range config.Languages[i].Files {
+		os.Create(file)
 	}
 }
