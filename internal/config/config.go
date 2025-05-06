@@ -1,7 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/BurntSushi/toml"
 )
@@ -20,9 +22,10 @@ type Config struct {
 }
 
 type Language struct {
-	Name        string   `toml:"name"`
-	Directories []string `toml:"directories"`
-	Files       []string `toml:"files"`
+	Name        string     `toml:"name"`
+	Directories []string   `toml:"directories"`
+	Files       []string   `toml:"files"`
+	ShellHooks  [][]string `toml:"shell_hook"`
 }
 
 func ParseConfig(fileName string) (Config, error) {
@@ -39,6 +42,28 @@ func ParseConfig(fileName string) (Config, error) {
 	}
 
 	return config, nil
+}
+
+func RunShellHooks(config Config, index int) error {
+	language := config.Languages[index]
+
+	for _, hook := range language.ShellHooks {
+		if len(hook) == 0 {
+			fmt.Println("No shell hook specified. Skipping...")
+			return nil
+		}
+
+		cmd := exec.Command(hook[0], hook[1:]...)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Stdin = os.Stdin
+
+		err := cmd.Run()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func CheckAndCreateConfig(DefaultConfigPath string, DefaultConfigDir string) (bool, error) {
