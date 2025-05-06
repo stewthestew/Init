@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -33,8 +34,14 @@ func main() {
 		log.Fatalf("Error parsing config file %v", err)
 	}
 	i, err := strconv.Atoi(args[1])
+
 	if err != nil {
 		log.Fatalf("Error converting language index to int %v", err)
+	}
+
+	if i > len(config.Languages) {
+		fmt.Println("The language index %v does not exist.", i, )
+		os.Exit(1)
 	}
 
 	for _, directory := range config.Languages[i].Directories {
