@@ -15,9 +15,9 @@ import (
 func main() {
 	args := os.Args
 	if len(args) < 2 {
-		log.Fatalf("Usage: %s <Language index>", args[0])
+		fmt.Printf("Usage: %s <Language index>\n", args[0])
+		os.Exit(1)
 	}
-
 
 	home := os.Getenv("HOME")
 	configFile := filepath.Join(home, ".config", "init", "config.json")
@@ -50,7 +50,7 @@ func main() {
 	}
 
 	if i > len(config.Languages) {
-		fmt.Printf("The language index %v does not exist.\n", i, )
+		fmt.Printf("The language index %v does not exist.\n", i)
 		os.Exit(1)
 	}
 
