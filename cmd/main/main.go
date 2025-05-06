@@ -10,8 +10,6 @@ import (
 	"init/internal/config"
 )
 
-// TODO:
-// Move cli args to its own file and use pflag
 func main() {
 	home := os.Getenv("HOME")
 	configFile := filepath.Join(home, ".config", "init", "config.json")
@@ -39,10 +37,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	if opts.Name == "" {
-		fmt.Println("Please specify a language preset to initialize, or do --help for more information")
-		os.Exit(1)
-	}
 
 	// Terrible code
 	// but it works
@@ -59,26 +53,3 @@ func main() {
 	}
 
 }
-
-//
-//	if err != nil {
-//		log.Fatalf("Error parsing config file %v", err)
-//	}
-//
-//	if err != nil {
-//		log.Fatalf("Error converting language index to int %v", err)
-//	}
-//
-//	//	if i > len(config.Languages) {
-//	//		fmt.Printf("The language index %v does not exist.\n", i)
-//	//		os.Exit(1)
-//	//	}
-//	//
-//	//	for _, directory := range config.Languages[i].Directories {
-//	//		os.MkdirAll(directory, os.ModePerm)
-//	//	}
-//
-//	//	for _, file := range config.Languages[i].Files {
-//	//		os.Create(file)
-//	//	}
-//
