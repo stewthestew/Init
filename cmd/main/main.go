@@ -17,7 +17,7 @@ func main() {
 	}
 
 	home := os.Getenv("HOME")
-	configFile := filepath.Join(home, ".config", "init", "config.json")
+	configFile := filepath.Join(home, ".config", "init", "config.toml")
 	configDir := filepath.Join(home, ".config", "init")
 	created, err := config.CheckAndCreateConfig(configFile, configDir)
 
@@ -35,6 +35,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error converting language index to int %v", err)
 	}
+
 	if opts.List {
 		for i, language := range config.Languages {
 			fmt.Printf("%v: Name: %v\n", i, language.Name)

@@ -1,32 +1,28 @@
 package config
 
 import (
-	"encoding/json"
 	"os"
+
+	"github.com/BurntSushi/toml"
 )
 
 const DefaultConfig = `
-	{
-    "languages": [
-        {
-            "name": "CHANGETHIS",
-            "directories": ["test"],
-            "files": ["test/test.txt"]
-        }
-    ]
-	}
-	`
+[[languages]]
+name = "CHANGETHIS"
+directories = ["CHANGETHAT_IN_CONFIG"]
+files = ["CHANGETHIS_IN_CONFIG.txt"]
+`
 
 type Config struct {
 	DefaultConfigPath string
 	DefaultConfigDir  string
-	Languages         []Language `json:"languages"`
+	Languages         []Language `toml:"languages"`
 }
 
 type Language struct {
-	Name        string   `json:"name"`
-	Directories []string `json:"directories"`
-	Files       []string `json:"files"`
+	Name        string   `toml:"name"`
+	Directories []string `toml:"directories"`
+	Files       []string `toml:"files"`
 }
 
 func ParseConfig(fileName string) (Config, error) {
@@ -36,7 +32,7 @@ func ParseConfig(fileName string) (Config, error) {
 	}
 	var config Config
 
-	err = json.Unmarshal([]byte(fileContents), &config)
+	err = toml.Unmarshal([]byte(fileContents), &config)
 
 	if err != nil {
 		return Config{}, err
