@@ -8,3 +8,4 @@ A very simple program to initialize a new project.
 - [x] Switch from JSON to TOML
 - [x] Add shellhooks
 - [ ] Add a way to split config files into multiple files
+- [ ] Cleanup code
