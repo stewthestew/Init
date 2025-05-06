@@ -5,12 +5,17 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"syscall"
 
 	"init/internal/cli"
 	"init/internal/config"
 )
 
 func main() {
+	if syscall.Getuid() == 0 {
+		log.Fatalf("root is not supported")
+	}
+
 	home := os.Getenv("HOME")
 	configFile := filepath.Join(home, ".config", "init", "config.json")
 	configDir := filepath.Join(home, ".config", "init")
