@@ -9,7 +9,7 @@ name = "go"
 directories = ["cmd", "cmd/main"]
 files = ["cmd/main/main.go"]
 shell_hook = [
-    ["go", "mod", "init", "pwd"]
+    ["go", "mod", "init", "example"] # You should probably do this manually so you can control the name 
 ]
 ```
 
